@@ -36,16 +36,32 @@ describe('Auth API', () => {
   function testEmailAndPasswordRequired(testName, user) {
     it(`sign up requires ${testName}`, () => {
       return request
-      .post('/api/auth/signup')
-      .send(user)
-      .expect(400)
-      .then(({ body }) => {
-        expect(body.error).toBe('Email and password are required');
-      });
-    })
+        .post('/api/auth/signup')
+        .send(user)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.error).toBe('Email and password are required');
+        });
+    });
   }
 
   testEmailAndPasswordRequired('email', { password: 'no email given' });
   testEmailAndPasswordRequired('password', { email: 'no@password.given' });
 
+  it('signs in a user', () => {
+    return request
+      .post('/api/auth/signup')
+      .send(user)
+      .expect(200)
+      .then(({ }))
+  });
+
+  function testBadSignUp(testName, user) {
+    it(testName, () => {
+      return request
+        .post('/api/auth/signin')
+        .send(user)
+        .expect()
+    });
+  }
 });
